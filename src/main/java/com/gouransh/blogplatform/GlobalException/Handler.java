@@ -11,7 +11,9 @@ import java.time.LocalDateTime;
 public class Handler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException resourceNotFoundException) {
+    public ResponseEntity<ErrorResponse> handleResourceNotFound(
+            ResourceNotFoundException resourceNotFoundException) {
+
         ErrorResponse errorResponse = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.value(),
@@ -24,6 +26,7 @@ public class Handler {
     @ExceptionHandler(UnauthorizedAccessException.class)
     public ResponseEntity<ErrorResponse> handleUnauthorizedAccess(
             UnauthorizedAccessException unauthorizedAccessException) {
+
         ErrorResponse errorResponse = new ErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.UNAUTHORIZED.value(),

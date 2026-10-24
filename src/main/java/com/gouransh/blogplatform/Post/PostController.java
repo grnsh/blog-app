@@ -1,6 +1,5 @@
 package com.gouransh.blogplatform.Post;
 
-import com.gouransh.blogplatform.GlobalException.UnauthorizedAccessException;
 import com.gouransh.blogplatform.Post.Dto.PostRequestDto;
 import com.gouransh.blogplatform.Post.Dto.PostResponseDto;
 import jakarta.validation.Valid;
@@ -40,7 +39,8 @@ public class PostController {
     public ResponseEntity<PostResponseDto> updatePost(
             @PathVariable Long id,
             @Valid @RequestBody PostRequestDto postRequestDto,
-            @AuthenticationPrincipal Jwt jwt) throws UnauthorizedAccessException {
+            @AuthenticationPrincipal Jwt jwt)  {
+
         String authorId = jwt.getSubject();
         return ResponseEntity.ok(postService.update(id, postRequestDto, authorId));
     }
@@ -48,7 +48,8 @@ public class PostController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePost(
             @PathVariable Long id,
-            @AuthenticationPrincipal Jwt jwt) throws UnauthorizedAccessException {
+            @AuthenticationPrincipal Jwt jwt)  {
+
         String authorId = jwt.getSubject();
         postService.delete(id, authorId);
         return ResponseEntity.noContent().build();

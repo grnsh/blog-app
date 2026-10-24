@@ -35,13 +35,13 @@ public class PostService {
     public PostResponseDto update(
             Long id,
             PostRequestDto postRequestDto,
-            String authorId) throws UnauthorizedAccessException {
+            String authorId) {
 
         Post post = postRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Post not found!"));
 
         if (!Objects.equals(post.getAuthorId(), authorId))
-            throw new UnauthorizedAccessException("you are not allowed to change this post.");
+            throw new UnauthorizedAccessException("you're not allowed to change this post.");
 
         Post newPost = postMapper.mapPostRequestDtoToPost(postRequestDto);
         newPost.setId(post.getId());
@@ -52,12 +52,12 @@ public class PostService {
     }
 
     @Transactional
-    public void delete(Long id, String authorId) throws UnauthorizedAccessException {
+    public void delete(Long id, String authorId) {
         Post post = postRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Post not found!"));
 
         if (!Objects.equals(post.getAuthorId(), authorId))
-            throw new UnauthorizedAccessException("you are not allowed to delete this post.");
+            throw new UnauthorizedAccessException("you're not allowed to delete this post.");
 
         postRepository.delete(post);
     }
