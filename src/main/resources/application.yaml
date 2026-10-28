@@ -9,7 +9,7 @@ spring:
 
   devtools:
     restart:
-     trigger-file: .reloadtrigger
+      trigger-file: .reloadtrigger
 
   config:
     import: "optional:file:.env[.properties]"

@@ -11,6 +11,8 @@ import java.util.List;
 public interface PostMapper {
 
     PostResponseDto mapPostToPostResponseDto(Post post);
+
     List<PostResponseDto> mapPostToPostResponseDto(List<Post> posts);
+
     Post mapPostRequestDtoToPost(PostRequestDto postRequestDto);
 }

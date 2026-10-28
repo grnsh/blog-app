@@ -1,12 +1,11 @@
 package com.gouransh.blogplatform.Comment;
 
-import java.util.List;
-
+import com.gouransh.blogplatform.Comment.Dto.CommentRequestDto;
+import com.gouransh.blogplatform.Comment.Dto.CommentResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
-import com.gouransh.blogplatform.Comment.Dto.CommentRequestDto;
-import com.gouransh.blogplatform.Comment.Dto.CommentResponseDto;
+import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CommentMapper {

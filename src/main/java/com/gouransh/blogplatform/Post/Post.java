@@ -1,20 +1,11 @@
 package com.gouransh.blogplatform.Post;
 
-import java.sql.Timestamp;
-
+import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -32,7 +23,7 @@ public class Post {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
-    
+
     @Column(nullable = false)
     private String authorId;
 

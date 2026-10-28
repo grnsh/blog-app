@@ -39,17 +39,14 @@ public class PostController {
     public ResponseEntity<PostResponseDto> updatePost(
             @PathVariable Long id,
             @Valid @RequestBody PostRequestDto postRequestDto,
-            @AuthenticationPrincipal Jwt jwt)  {
+            @AuthenticationPrincipal Jwt jwt) {
 
         String authorId = jwt.getSubject();
         return ResponseEntity.ok(postService.update(id, postRequestDto, authorId));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePost(
-            @PathVariable Long id,
-            @AuthenticationPrincipal Jwt jwt)  {
-
+    public ResponseEntity<Void> deletePost(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
         String authorId = jwt.getSubject();
         postService.delete(id, authorId);
         return ResponseEntity.noContent().build();
