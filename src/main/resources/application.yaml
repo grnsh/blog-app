@@ -7,10 +7,6 @@ spring:
   application:
     name: Blog-Platform
 
-  devtools:
-    restart:
-      trigger-file: .reloadtrigger
-
   config:
     import: "optional:file:.env[.properties]"
 
