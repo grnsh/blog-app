@@ -4,6 +4,8 @@ import com.gouransh.blogplatform.Post.Dto.PostRequestDto;
 import com.gouransh.blogplatform.Post.Dto.PostResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,8 +33,11 @@ public class PostController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<PostResponseDto>> retrievePost() {
-        return ResponseEntity.ok(postService.retrieve());
+    public ResponseEntity<List<PostResponseDto>> retrievePost(
+            @RequestParam( required = false, defaultValue = "1") int pageNo,
+            @RequestParam( required = false, defaultValue = "5") int pageSize
+    ) {
+        return ResponseEntity.ok(postService.retrieve(PageRequest.of(pageNo-1, pageSize)));
     }
 
     @PutMapping("/{id}")

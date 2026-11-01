@@ -6,6 +6,7 @@ import com.gouransh.blogplatform.Post.Dto.PostRequestDto;
 import com.gouransh.blogplatform.Post.Dto.PostResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,8 +28,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Transactional
-    public List<PostResponseDto> retrieve() {
-        return postMapper.mapPostToPostResponseDto(postRepository.findAll());
+    public List<PostResponseDto> retrieve(Pageable pageable) {
+        return postMapper.mapPostToPostResponseDto(postRepository.findAllBy(pageable).getContent());
     }
 
     @Transactional
