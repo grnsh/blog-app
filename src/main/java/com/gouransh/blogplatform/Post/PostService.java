@@ -2,13 +2,14 @@ package com.gouransh.blogplatform.Post;
 
 import com.gouransh.blogplatform.Post.Dto.PostRequestDto;
 import com.gouransh.blogplatform.Post.Dto.PostResponseDto;
-import org.springframework.data.domain.Pageable;
-
-import java.util.List;
+import org.springframework.data.domain.Slice;
 
 public interface PostService {
     PostResponseDto create(PostRequestDto postRequestDto, String authorId);
-    List<PostResponseDto> retrieve(Pageable pageable);
+
+    Slice<PostResponseDto> retrieve(int pageNo, int pageSize, String sortBy, String sortDirection);
+
     PostResponseDto update(Long id, PostRequestDto postRequestDto, String authorId);
+
     void delete(Long id, String authorId);
 }

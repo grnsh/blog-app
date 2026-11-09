@@ -4,15 +4,12 @@ import com.gouransh.blogplatform.Post.Dto.PostRequestDto;
 import com.gouransh.blogplatform.Post.Dto.PostResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
@@ -33,11 +30,14 @@ public class PostController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<PostResponseDto>> retrievePost(
+    public ResponseEntity<Slice<PostResponseDto>> retrievePost(
             @RequestParam( required = false, defaultValue = "1") int pageNo,
-            @RequestParam( required = false, defaultValue = "5") int pageSize
+            @RequestParam( required = false, defaultValue = "10") int pageSize,
+            @RequestParam( required = false, defaultValue = "id") String sortBy,
+            @RequestParam( required = false, defaultValue = "ASC") String sortDirection
     ) {
-        return ResponseEntity.ok(postService.retrieve(PageRequest.of(pageNo-1, pageSize)));
+        return ResponseEntity.ok(
+                postService.retrieve(pageNo, pageSize, sortBy, sortDirection) );
     }
 
     @PutMapping("/{id}")

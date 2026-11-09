@@ -6,10 +6,12 @@ import com.gouransh.blogplatform.Post.Dto.PostRequestDto;
 import com.gouransh.blogplatform.Post.Dto.PostResponseDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -28,8 +30,17 @@ public class PostServiceImpl implements PostService {
     }
 
     @Transactional
-    public List<PostResponseDto> retrieve(Pageable pageable) {
-        return postMapper.mapPostToPostResponseDto(postRepository.findAllBy(pageable).getContent());
+    public Slice<PostResponseDto> retrieve(int pageNo, int pageSize, String sortBy, String sortDirection) {
+        Sort sort;
+        if(sortDirection.equalsIgnoreCase("DESC"))
+            sort = Sort.by(sortBy).descending();
+        else
+            sort = Sort.by(sortBy).ascending();
+
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize, sort);
+
+        return postRepository.findAllBy(pageable)
+                .map(postMapper::mapPostToPostResponseDto);
     }
 
     @Transactional
