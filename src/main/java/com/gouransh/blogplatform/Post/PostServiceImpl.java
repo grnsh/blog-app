@@ -1,23 +1,24 @@
 package com.gouransh.blogplatform.Post;
 
+import com.gouransh.blogplatform.GlobalException.BadArgumentException;
 import com.gouransh.blogplatform.GlobalException.ResourceNotFoundException;
 import com.gouransh.blogplatform.GlobalException.UnauthorizedAccessException;
 import com.gouransh.blogplatform.Post.Dto.PostRequestDto;
 import com.gouransh.blogplatform.Post.Dto.PostResponseDto;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
+    private static final Set<String> ALLOWED_SORT_FIELDS = Set.of("id", "title", "createdAt");
     private final PostRepository postRepository;
     private final PostMapper postMapper;
 
@@ -30,15 +31,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Transactional
-    public Slice<PostResponseDto> retrieve(int pageNo, int pageSize, String sortBy, String sortDirection) {
-        Sort sort;
-        if(sortDirection.equalsIgnoreCase("DESC"))
-            sort = Sort.by(sortBy).descending();
-        else
-            sort = Sort.by(sortBy).ascending();
-
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize, sort);
-
+    public Slice<PostResponseDto> retrieve(Pageable pageable) {
+        pageable.getSort().forEach(
+                order -> {
+                    if(!ALLOWED_SORT_FIELDS.contains(order.getProperty())){
+                        throw new BadArgumentException("unsupported sort field.");
+                    }
+                } );
         return postRepository.findAllBy(pageable)
                 .map(postMapper::mapPostToPostResponseDto);
     }

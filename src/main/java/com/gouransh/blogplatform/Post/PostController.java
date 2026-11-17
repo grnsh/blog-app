@@ -4,7 +4,9 @@ import com.gouransh.blogplatform.Post.Dto.PostRequestDto;
 import com.gouransh.blogplatform.Post.Dto.PostResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,14 +32,8 @@ public class PostController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Slice<PostResponseDto>> retrievePost(
-            @RequestParam( required = false, defaultValue = "1") int pageNo,
-            @RequestParam( required = false, defaultValue = "10") int pageSize,
-            @RequestParam( required = false, defaultValue = "id") String sortBy,
-            @RequestParam( required = false, defaultValue = "ASC") String sortDirection
-    ) {
-        return ResponseEntity.ok(
-                postService.retrieve(pageNo, pageSize, sortBy, sortDirection) );
+    public ResponseEntity<Slice<PostResponseDto>> retrievePost(@PageableDefault(sort = "id") Pageable pageable) {
+        return ResponseEntity.ok(postService.retrieve(pageable));
     }
 
     @PutMapping("/{id}")
