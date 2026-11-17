@@ -31,7 +31,7 @@ public class PostController {
                 .body(postService.create(postRequestDto, authorId));
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<Slice<PostResponseDto>> retrievePost(@PageableDefault(sort = "id") Pageable pageable) {
         return ResponseEntity.ok(postService.retrieve(pageable));
     }

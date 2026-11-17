@@ -31,7 +31,7 @@ public class CommentController {
                 .body(commentService.create(postId, commentRequestDto, authorId));
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<Slice<CommentResponseDto>> retrieveComment(
             @PathVariable Long postId,
             @PageableDefault(sort = "id") Pageable pageable) {
