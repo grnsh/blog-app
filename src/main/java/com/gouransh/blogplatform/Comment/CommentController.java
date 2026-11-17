@@ -3,13 +3,14 @@ package com.gouransh.blogplatform.Comment;
 import com.gouransh.blogplatform.Comment.Dto.CommentRequestDto;
 import com.gouransh.blogplatform.Comment.Dto.CommentResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/posts/{postId}/comments")
@@ -31,8 +32,11 @@ public class CommentController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<CommentResponseDto>> retrieveComment(@PathVariable Long postId) {
-        return ResponseEntity.ok(commentService.retrieve(postId));
+    public ResponseEntity<Slice<CommentResponseDto>> retrieveComment(
+            @PathVariable Long postId,
+            @PageableDefault(sort = "id") Pageable pageable) {
+
+        return ResponseEntity.ok(commentService.retrieve(postId, pageable));
     }
 
     @PutMapping("/{id}")
