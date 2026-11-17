@@ -30,3 +30,11 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${ISSUER}
+
+  data:
+    web:
+      pageable:
+        max-page-size: 100
+        one-indexed-parameters: true
+
+
